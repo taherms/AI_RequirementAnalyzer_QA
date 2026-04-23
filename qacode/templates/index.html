@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Requirements Analyzer - Home{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title text-center">Requirements Analyzer</h2>
+            </div>
+            <div class="card-body">
+                <p class="lead text-center">
+                    Analyze software requirements, generate summaries, and create test cases using AI.
+                </p>
+                
+                <form method="POST" action="{{ url_for('analyze') }}" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="api_key" class="form-label">OpenRouter API Key (Optional)</label>
+                        <input type="password" class="form-control" id="api_key" name="api_key" placeholder="Enter your OpenRouter API key (or leave blank to use default)">
+                        <div class="form-text">
+                            Using your own API key will provide better performance and avoid rate limiting.
+                            <a href="https://openrouter.ai/" target="_blank">Get your free API key here</a>.
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="requirements_file" class="form-label">Requirements File</label>
+                        <input type="file" class="form-control" id="requirements_file" name="requirements_file" accept=".txt">
+                        <div class="form-text">
+                            Upload a text file containing your software requirements.
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="use_sample" name="use_sample">
+                        <label class="form-check-label" for="use_sample">Use sample requirements file</label>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">Analyze Requirements</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header">
+                <h3 class="card-title">How to Use</h3>
+            </div>
+            <div class="card-body">
+                <ol>
+                    <li>Optionally enter your OpenRouter API key (recommended to avoid rate limiting)</li>
+                    <li>Upload a text file with your software requirements or use the sample file</li>
+                    <li>Click "Analyze Requirements" to generate a summary and test cases</li>
+                    <li>View the results and download the analysis</li>
+                </ol>
+                
+                <h4>Requirements File Format</h4>
+                <p>Your requirements file should be a plain text file with clear sections describing:</p>
+                <ul>
+                    <li>Functional requirements</li>
+                    <li>User stories or use cases</li>
+                    <li>Technical constraints</li>
+                    <li>Non-functional requirements</li>
+                </ul>
+                
+                <p>See the <code>sample_requirements.txt</code> file for an example format.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('use_sample').addEventListener('change', function() {
+        const fileInput = document.getElementById('requirements_file');
+        if (this.checked) {
+            fileInput.disabled = true;
+        } else {
+            fileInput.disabled = false;
+        }
+    });
+</script>
+{% endblock %}
